@@ -20,15 +20,27 @@ export async function notifyAdminNewUser({
 }) {
   const transporter = createTransporter();
 
-  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminEmail = process.env.SMTP_USER;
   if (!adminEmail) throw new Error("ADMIN_EMAIL not configured");
 
+  // await transporter.sendMail({
+  //   from: `"Invite App" <${adminEmail}>`,
+  //   to: adminEmail,
+  //   subject: `New user invited: ${userName} (${workEmail})`,
+  //   text:
+  //     `A new user has been created.\n\n` +
+  //     `Organization: ${organizationName}\n` +
+  //     `Name: ${userName}\n` +
+  //     `Email: ${workEmail}\n` +
+  //     `Country: ${country}\n`,
+  // });
+
   await transporter.sendMail({
-    from: `"Invite App" <${process.env.SMTP_USER}>`,
-    to: adminEmail,
-    subject: `New user invited: ${userName} (${workEmail})`,
+    from: `"Invite App" <${adminEmail}>`,
+    to: workEmail,
+    subject: `Signup Notification: Invite App`,
     text:
-      `A new user has been created.\n\n` +
+      `Congratulations! Your account has been created successfully.\n\n` +
       `Organization: ${organizationName}\n` +
       `Name: ${userName}\n` +
       `Email: ${workEmail}\n` +
